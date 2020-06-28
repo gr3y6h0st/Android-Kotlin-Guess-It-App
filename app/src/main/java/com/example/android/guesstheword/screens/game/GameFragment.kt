@@ -68,15 +68,17 @@ class GameFragment : Fragment() {
             binding.scoreText.text = newScore.toString()
         })
 
+        //LiveData Observer for eventGameFinish
+        viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer { isFinished ->
+            if (isFinished) {
+                val currentScore = viewModel.score.value ?: 0
+                val action = GameFragmentDirections.actionGameToScore(currentScore)
+                findNavController(this).navigate(action)
+                viewModel.onGameFinishComplete()
+            }
+        })
+
         return binding.root
 
-    }
-    /**
-     * Called when the game is finished
-     */
-    fun gameFinished() {
-        val currentScore = viewModel.score.value ?: 0
-        val action = GameFragmentDirections.actionGameToScore(currentScore)
-        findNavController(this).navigate(action)
     }
 }
