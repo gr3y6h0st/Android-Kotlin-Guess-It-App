@@ -53,21 +53,11 @@ class GameFragment : Fragment() {
         Log.i("GameFragment", "Called ViewModelProviders.of")
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
 
-        binding.correctButton.setOnClickListener {
-            viewModel.onCorrect()
-        }
-        binding.skipButton.setOnClickListener {
-            viewModel.onSkip()
-        }
-        //LiveData Observation of word variable
-        viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
-            binding.wordText.text = newWord
-        })
+        //bind viewModel to binding
+        binding.gameViewModel = viewModel
 
-        //LiveData Observation of score variable
-        viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
-            binding.scoreText.text = newScore.toString()
-        })
+        //bind lifecycleOwner (Activity/Fragment)
+        binding.lifecycleOwner = viewLifecycleOwner //use viewLifecycleOwner when assigning a fragment vs. "this"
 
         //TimerCountDown
         viewModel.currentTime.observe(viewLifecycleOwner, Observer{ newTime ->

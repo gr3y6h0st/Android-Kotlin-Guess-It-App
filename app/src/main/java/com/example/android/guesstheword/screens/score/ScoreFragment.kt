@@ -52,11 +52,10 @@ class ScoreFragment : Fragment() {
         viewModelFactory = arguments?.let { ScoreFragmentArgs.fromBundle(it).score }?.let { ScoreViewModelFactory(it) }!!
         viewModel = ViewModelProviders.of(this,viewModelFactory).get(ScoreViewModel::class.java)
 
-        viewModel.score.observe(this, Observer { newScore ->
-            binding.scoreText.text = newScore.toString()
-        })
+        binding.scoreViewModel = viewModel
 
-        binding.playAgainButton.setOnClickListener { viewModel.onPlayAgain() }
+        //bind viewModel to viewLifecycleOwner
+        binding.lifecycleOwner = viewLifecycleOwner
 
         // Navigates back to tile when button is pressed
         viewModel.eventPlayAgain.observe(this, Observer { playAgain ->
