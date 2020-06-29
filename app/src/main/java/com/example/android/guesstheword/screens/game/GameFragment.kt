@@ -59,11 +59,6 @@ class GameFragment : Fragment() {
         //bind lifecycleOwner (Activity/Fragment)
         binding.lifecycleOwner = viewLifecycleOwner //use viewLifecycleOwner when assigning a fragment vs. "this"
 
-        //TimerCountDown
-        viewModel.currentTime.observe(viewLifecycleOwner, Observer{ newTime ->
-            binding.timerText.text = DateUtils.formatElapsedTime(newTime)
-        })
-
         //LiveData Observer for eventGameFinish
         viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer { isFinished ->
             if (isFinished) {
